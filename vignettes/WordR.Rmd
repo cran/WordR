@@ -1,0 +1,114 @@
+---
+title: "WordR Package"
+author: "Tomas Hovorka (tomashovorka@seznam.cz)"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{WordR Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`WordR` package enables creating MS Word files (.docx) from given MS Word template. It can evaluate inline R code, insert tables and plots. `WordR` package is technically a wrapper around two other great and powerful packages - `officer` and `ReporteRs`.
+
+## Motivation
+
+R language has many ways for producing state-of-the-art reports. For example `rmarkdown` or `Sweave` packages are very effective in preparing reports in PDF format. However, such techniques has some drawbacks:
+
+- For nontechnical person it is very difficult to prepare the source (template) file.
+- It is not conveniently possible to further edit the resulting report (if rendered into e.g. PDF).
+- Formatting possibilities with `rmarkdown` are limited and with `Sweave` complicated (LateX knowledge required).
+
+On the other hand, `WordR` package, enables
+
+- preparation of the source file in MS Word, with all the bells and whistles it offers (and drawbacks!),
+- result is also editable MS Word document,
+- such document can be later saved as PDF in MS Word if needed.
+
+To conclude, `WordR` package is useful, for example when you need to 
+
+- periodically prepare static report and/or 
+- want non-technical people (who can use MS Word but not R) to be able to prepare majority of the template and/or
+- want the resulting report being editable, for example, for adding additional custom interpretation, based on the current results, without need to change the input template.
+
+## How to use the WordR package
+
+All examples, and instructions given in this document applies to MS Word 2013. No major differences are expected to other versions (as of 2017).
+
+### Template preparation
+First we need to create a template (.docx) file. Such file may contain any formatting MS Word allows. Apart from that, the template may contain two other things:
+
+- inline R code
+- bookmarks for inserting Tables or Plots
+
+#### Creating inline R code
+This functionality enables including simple R expression(s) (almost) anywhere in the Word document, which is evaluated during file rendering. The result of the expression need to be a string of length one (or something coercible to character(1)). Because of limitation in `officer` package, line breaks does not works. Because of used workflow, functions etc. the R expression need to be a separate paragraph. However, MS Word offers a way how to do an inline paragraph.
+Steps for creating an inline expression (in a new document):
+
+- Open MS Word, create a new file or open an existing one
+- locate the cursor on the place where you want to have the R expression
+- insert style separator by pressing `Ctrl+Alt+Enter` (it is preferable to have formatting symbols visible by clicking the "new line" sign button on `Home>Paragraph` panel in MS Word)
+- delete the space which MS Word inserted after the style separator
+- type `#rXXXX expression @{style}r#`, where XXXX is a numeric unique code block identification (must be unique across whole document), `expression` is R expression like `1+1`. Last part `@{style}` is optional argument specifying the MS Word style in which the expression should be evaluated (for details see help for function `renderInlineCode`).
+- insert style separator again
+
+As a result you should see something like this:
+![Inline Code](lineWithCode.gif)
+
+As this is tedious, you can create a VBA macro for this:
+
+- open VBA editor in MS Word (press `ALT+F11` in MS Word)
+- put the code below e.g. to a newly created module in Normal template (https://word.tips.net/T000109_Writing_a_Macro_from_Scratch.html):
+```
+Sub InsertInlineRCode()
+'
+' InsertInlineRCode Macro
+'
+'
+    Selection.TypeParagraph
+    Selection.MoveLeft Unit:=wdCharacter, Count:=1
+    Selection.MoveRight Unit:=wdCharacter, Count:=1, Extend:=wdExtend
+    Selection.InsertStyleSeparator
+    Selection.TypeBackspace
+    rn = Round(1000000 * Rnd())
+    Selection.TypeText Text:="#r" + Trim(Str(rn)) + " 1+1 r#"
+    Selection.TypeParagraph
+    Selection.MoveLeft Unit:=wdCharacter, Count:=1
+    Selection.MoveRight Unit:=wdCharacter, Count:=1, Extend:=wdExtend
+    Selection.InsertStyleSeparator
+    Selection.TypeBackspace
+    Selection.MoveLeft Unit:=wdCharacter, Count:=17, Extend:=wdExtend
+    Selection.Range.HighlightColorIndex = wdYellow
+End Sub
+```
+- assign a button to this macro (https://wordribbon.tips.net/T006011_Adding_a_Macro_to_the_Quick_Access_Toolbar.html), so you can easily create a new R code block with one click
+
+Example can be seen in file `examples/templates/template1.docx`.
+
+##### Troubleshooting the inline code
+- I am getting `R Inline code chunk ID: XXX not found. Pls reidentificate!(retype the \"#rXXXXX[space]\")` error: Because of the way how `officer` reads the document (and is looking up strings/paragraphs) the characters identifying the code chunk needs to be in a single element of the XML in which the MS Word stores the document. If this error occur, please delete everything between the beginning of the code chunk (style separator) and the expression and then type <code>#rXXXX </code> - where XXXX is a number specifying the code chunk; and mind the space after that. Do not change the style of any part this part of code chunk as that would split the text into separate elements in XML.
+- The expression does not evaluate as expected: Just try to evaluate it in the environment where you are running the `renderInlineCode` function, and make sure its output is character of length one.
+
+#### Inserting bookmarks for Plots or Tables
+
+Example and more info about bookmarks in MS Word can be seen in file `examples/templates/templateFT.docx`
+
+To render a table on a given place, just insert a bookmark with name `t_XYZ` where XYZ will be a name of a FlexTable (`ReporteRs::FlexTable`) table.
+
+
+To render a plot on a given place, just insert a bookmark with name `p_XYZ` where XYZ will be a name of plot function (`ReporteRs::addPlot.docx`).
+
+
+
+### Template rendering
+
+Functions for rendering the MS Word file are the main content of the WordR package. Typical rendering R script contains following steps:
+
+- calculation of the outputs - tables, plots and values for inline expressions
+- running `renderInlineCode` on the prepared template file
+- running `addFlexTables` on the file resulting from previous step
+- running `addFlexPlots` on the file resulting from previous step
+
+Examples can be seen in `examples/examples.R`.
+
+
