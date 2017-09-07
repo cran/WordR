@@ -4,15 +4,12 @@
 \alias{renderInlineCode}
 \title{Read Word document with R code blocks, evaluate them and writes the result into another Word document.}
 \usage{
-renderInlineCode(docxIn, docxOut, defaultStyle = NA, debug = F)
+renderInlineCode(docxIn, docxOut, debug = F)
 }
 \arguments{
 \item{docxIn}{String of length one; path to Word file with R code blocks.}
 
 \item{docxOut}{String of length one; path for output Word file.}
-
-\item{defaultStyle}{String of length one or NA; Default style for inserted text. It must be one of the styles in the document.
-List of the styles can be obtained by running \code{\link[officer]{styles_info}(read_docx(docxIn)) \%>\% filter(style_type==character) \%>\% select(style_name)}}
 
 \item{debug}{Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function}
 }

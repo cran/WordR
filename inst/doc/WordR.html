@@ -12,7 +12,7 @@
 
 <meta name="author" content="Tomas Hovorka (tomashovorka@seznam.cz)" />
 
-<meta name="date" content="2017-08-24" />
+<meta name="date" content="2017-09-04" />
 
 <title>WordR Package</title>
 
@@ -32,98 +32,74 @@
 
 <h1 class="title toc-ignore">WordR Package</h1>
 <h4 class="author"><em>Tomas Hovorka (<a href="mailto:tomashovorka@seznam.cz">tomashovorka@seznam.cz</a>)</em></h4>
-<h4 class="date"><em>2017-08-24</em></h4>
+<h4 class="date"><em>2017-09-04</em></h4>
 
 
 
 <p><code>WordR</code> package enables creating MS Word files (.docx) from given MS Word template. It can evaluate inline R code, insert tables and plots. <code>WordR</code> package is technically a wrapper around two other great and powerful packages - <code>officer</code> and <code>ReporteRs</code>.</p>
-<div id="motivation" class="section level2">
-<h2>Motivation</h2>
-<p>R language has many ways for producing state-of-the-art reports. For example <code>rmarkdown</code> or <code>Sweave</code> packages are very effective in preparing reports in PDF format. However, such techniques has some drawbacks:</p>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>R language has many ways for producing state-of-the-art reports. For example <code>rmarkdown</code> or <code>Sweave</code> packages are very effective in preparing reports in PDF format or R2wd for creating a MS Word report from scratch. However, such techniques has some drawbacks:</p>
 <ul>
 <li>For nontechnical person it is very difficult to prepare the source (template) file.</li>
 <li>It is not conveniently possible to further edit the resulting report (if rendered into e.g. PDF).</li>
-<li>Formatting possibilities with <code>rmarkdown</code> are limited and with <code>Sweave</code> complicated (LateX knowledge required).</li>
+<li>Formatting possibilities with <code>rmarkdown</code> or <code>R2wd</code> are limited and with <code>Sweave</code> complicated (LateX knowledge required).</li>
 </ul>
 <p>On the other hand, <code>WordR</code> package, enables</p>
 <ul>
 <li>preparation of the source file in MS Word, with all the bells and whistles it offers (and drawbacks!),</li>
 <li>result is also editable MS Word document,</li>
-<li>such document can be later saved as PDF in MS Word if needed.</li>
+<li>such document can be later saved as PDF from MS Word if needed.</li>
 </ul>
-<p>To conclude, <code>WordR</code> package is useful, for example when you need to</p>
+<p>To conclude, <code>WordR</code> package is useful, for example, when you need to</p>
 <ul>
 <li>periodically prepare static report and/or</li>
 <li>want non-technical people (who can use MS Word but not R) to be able to prepare majority of the template and/or</li>
 <li>want the resulting report being editable, for example, for adding additional custom interpretation, based on the current results, without need to change the input template.</li>
 </ul>
 </div>
-<div id="how-to-use-the-wordr-package" class="section level2">
-<h2>How to use the WordR package</h2>
+<div id="how-to-use-the-wordr-package" class="section level1">
+<h1>How to use the WordR package</h1>
 <p>All examples, and instructions given in this document applies to MS Word 2013. No major differences are expected to other versions (as of 2017).</p>
-<div id="template-preparation" class="section level3">
-<h3>Template preparation</h3>
+<div id="template-preparation" class="section level2">
+<h2>Template preparation</h2>
 <p>First we need to create a template (.docx) file. Such file may contain any formatting MS Word allows. Apart from that, the template may contain two other things:</p>
 <ul>
 <li>inline R code</li>
 <li>bookmarks for inserting Tables or Plots</li>
 </ul>
-<div id="creating-inline-r-code" class="section level4">
-<h4>Creating inline R code</h4>
-<p>This functionality enables including simple R expression(s) (almost) anywhere in the Word document, which is evaluated during file rendering. The result of the expression need to be a string of length one (or something coercible to character(1)). Because of limitation in <code>officer</code> package, line breaks does not works. Because of used workflow, functions etc. the R expression need to be a separate paragraph. However, MS Word offers a way how to do an inline paragraph. Steps for creating an inline expression (in a new document):</p>
+<p>Examples can be found in the examples folder of the package.</p>
+<div id="creating-inline-r-code" class="section level3">
+<h3>Creating inline R code</h3>
+<p>This functionality enables including simple R expression(s) in the Word document, which is evaluated during file rendering. The result of the expression need to be a string of length one (or something coercible to character(1)). Line breaks cannot be inserted in this way. Because of used workflow, each R inline expression need to be a separate paragraph. However, MS Word offers a way how to do an inline paragraph. Steps for creating an inline expression:</p>
 <ul>
 <li>Open MS Word, create a new file or open an existing one</li>
 <li>locate the cursor on the place where you want to have the R expression</li>
 <li>insert style separator by pressing <code>Ctrl+Alt+Enter</code> (it is preferable to have formatting symbols visible by clicking the “new line” sign button on <code>Home&gt;Paragraph</code> panel in MS Word)</li>
-<li>delete the space which MS Word inserted after the style separator</li>
-<li>type <code>#rXXXX expression @{style}r#</code>, where XXXX is a numeric unique code block identification (must be unique across whole document), <code>expression</code> is R expression like <code>1+1</code>. Last part <code>@{style}</code> is optional argument specifying the MS Word style in which the expression should be evaluated (for details see help for function <code>renderInlineCode</code>).</li>
+<li>type <code>`r expression`</code>, where <code>expression</code> is R expression like <code>1+1</code>.</li>
 <li>insert style separator again</li>
+<li>if you want the result to be in non-default format, insert cursor into the inline code area and select the desired format from <code>Styles</code> menu. (Do not select the r code as that would change the style for the text not the whole r inline code paragraph)</li>
 </ul>
-<p>As a result you should see something like this: <img src="data:image/gif;base64,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" alt="Inline Code" /></p>
-<p>As this is tedious, you can create a VBA macro for this:</p>
-<ul>
-<li>open VBA editor in MS Word (press <code>ALT+F11</code> in MS Word)</li>
-<li><p>put the code below e.g. to a newly created module in Normal template (<a href="https://word.tips.net/T000109_Writing_a_Macro_from_Scratch.html" class="uri">https://word.tips.net/T000109_Writing_a_Macro_from_Scratch.html</a>):</p>
-<pre><code>Sub InsertInlineRCode()
-'
-' InsertInlineRCode Macro
-'
-'
-Selection.TypeParagraph
-Selection.MoveLeft Unit:=wdCharacter, Count:=1
-Selection.MoveRight Unit:=wdCharacter, Count:=1, Extend:=wdExtend
-Selection.InsertStyleSeparator
-Selection.TypeBackspace
-rn = Round(1000000 * Rnd())
-Selection.TypeText Text:=&quot;#r&quot; + Trim(Str(rn)) + &quot; 1+1 r#&quot;
-Selection.TypeParagraph
-Selection.MoveLeft Unit:=wdCharacter, Count:=1
-Selection.MoveRight Unit:=wdCharacter, Count:=1, Extend:=wdExtend
-Selection.InsertStyleSeparator
-Selection.TypeBackspace
-Selection.MoveLeft Unit:=wdCharacter, Count:=17, Extend:=wdExtend
-Selection.Range.HighlightColorIndex = wdYellow
-End Sub</code></pre></li>
-<li><p>assign a button to this macro (<a href="https://wordribbon.tips.net/T006011_Adding_a_Macro_to_the_Quick_Access_Toolbar.html" class="uri">https://wordribbon.tips.net/T006011_Adding_a_Macro_to_the_Quick_Access_Toolbar.html</a>), so you can easily create a new R code block with one click</p></li>
-</ul>
+<p>As a result you should see something like this: <img src="data:image/gif;base64,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" alt="Inline Code" /></p>
 <p>Example can be seen in file <code>examples/templates/template1.docx</code>.</p>
-<div id="troubleshooting-the-inline-code" class="section level5">
-<h5>Troubleshooting the inline code</h5>
+<div id="troubleshooting-the-inline-code" class="section level4">
+<h4>Troubleshooting the inline code</h4>
 <ul>
-<li>I am getting <code>R Inline code chunk ID: XXX not found. Pls reidentificate!(retype the \&quot;#rXXXXX[space]\&quot;)</code> error: Because of the way how <code>officer</code> reads the document (and is looking up strings/paragraphs) the characters identifying the code chunk needs to be in a single element of the XML in which the MS Word stores the document. If this error occur, please delete everything between the beginning of the code chunk (style separator) and the expression and then type <code>#rXXXX </code> - where XXXX is a number specifying the code chunk; and mind the space after that. Do not change the style of any part this part of code chunk as that would split the text into separate elements in XML.</li>
+<li>How to insert corect (straight) quotes (<code>'</code> or <code>&quot;</code>): MS Word is, by default (maybe depends on local settings), changing the quotes to ‘Smart quotes’. You can change it the MS Word settings under <code>Proofing &gt; AutoCorrect Options &gt; Autoformat as you type...</code> You can de-select Straight Quotes as Smart Quotes and that should revert the quotes to being straight. Or when typing, right after you type a quote, if Word turns it into a “smart quote,” immediately press <code>Ctrl-Z</code>.</li>
 <li>The expression does not evaluate as expected: Just try to evaluate it in the environment where you are running the <code>renderInlineCode</code> function, and make sure its output is character of length one.</li>
+<li>The output is not in desired style: insert cursor into the inline code paragraph and select the desired style from <code>Styles</code> menu in MS Word.</li>
 </ul>
 </div>
 </div>
-<div id="inserting-bookmarks-for-plots-or-tables" class="section level4">
-<h4>Inserting bookmarks for Plots or Tables</h4>
+<div id="inserting-bookmarks-for-plots-or-tables" class="section level3">
+<h3>Inserting bookmarks for Plots or Tables</h3>
 <p>Example and more info about bookmarks in MS Word can be seen in file <code>examples/templates/templateFT.docx</code></p>
 <p>To render a table on a given place, just insert a bookmark with name <code>t_XYZ</code> where XYZ will be a name of a FlexTable (<code>ReporteRs::FlexTable</code>) table.</p>
 <p>To render a plot on a given place, just insert a bookmark with name <code>p_XYZ</code> where XYZ will be a name of plot function (<code>ReporteRs::addPlot.docx</code>).</p>
 </div>
 </div>
-<div id="template-rendering" class="section level3">
-<h3>Template rendering</h3>
+<div id="template-rendering" class="section level2">
+<h2>Template rendering</h2>
 <p>Functions for rendering the MS Word file are the main content of the WordR package. Typical rendering R script contains following steps:</p>
 <ul>
 <li>calculation of the outputs - tables, plots and values for inline expressions</li>

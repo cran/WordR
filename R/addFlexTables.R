@@ -1,4 +1,4 @@
-#' Read Word document with bookmarks and create other Word documnet with rendered tables in place.
+#' Read Word document with bookmarks and create other Word document with rendered tables in place.
 #'
 #' This function is basically a loop wrapper around \code{\link[ReporteRs]{addFlexTable}} function.
 #'

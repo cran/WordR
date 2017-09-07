@@ -2,7 +2,7 @@
 % Please edit documentation in R/addFlexTables.R
 \name{addFlexTables}
 \alias{addFlexTables}
-\title{Read Word document with bookmarks and create other Word documnet with rendered tables in place.}
+\title{Read Word document with bookmarks and create other Word document with rendered tables in place.}
 \usage{
 addFlexTables(docxIn, docxOut, FlexTables = list(), debug = F, ...)
 }
