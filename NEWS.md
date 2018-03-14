@@ -1,3 +1,7 @@
+# WordR 0.2.3
+
+* changing the output path to tempdir() in examples and tests, as the CRAN tests were failing
+
 # WordR 0.2.2
 
 * breaking change: different format of inline code notation in docx files!

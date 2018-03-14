@@ -23,6 +23,6 @@ Read Word document with R code blocks, evaluate them and writes the result into 
 library(ReporteRs)
 renderInlineCode(
   paste(examplePath(),'templates/template1.docx',sep = ''),
-  paste(examplePath(),'results/result1.docx',sep = ''))
+  paste(tempdir(),'/result1.docx',sep = ''))
 
 }

@@ -15,7 +15,7 @@
 #' FT <- list(ft_mtcars=ft_mtcars,ft_iris=ft_iris)
 #' addFlexTables(
 #'   paste(examplePath(),'templates/templateFT.docx',sep = ''),
-#'   paste(examplePath(),'results/resultFT.docx',sep = ''),
+#'   paste(tempdir(),'/resultFT.docx',sep = ''),
 #'   FT)
 #'
 addFlexTables <- function(docxIn, docxOut, FlexTables = list(), debug = F, ...) {

@@ -14,7 +14,7 @@
 #'  plot2=function()print(ggplot(mtcars,aes(x=wt,y=hp,col=as.factor(cyl)))+geom_point()))
 #'addPlots(
 #'  paste(examplePath(),'templates/templatePlots.docx',sep = ''),
-#'  paste(examplePath(),'results/resultPlots.docx',sep = ''),
+#'  paste(tempdir(),'/resultPlots.docx',sep = ''),
 #'  Plots,height=4)
 #'
 addPlots <- function(docxIn, docxOut, Plots = list(), debug = F, ...) {

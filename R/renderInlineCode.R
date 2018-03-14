@@ -8,7 +8,7 @@
 #' library(ReporteRs)
 #' renderInlineCode(
 #'   paste(examplePath(),'templates/template1.docx',sep = ''),
-#'   paste(examplePath(),'results/result1.docx',sep = ''))
+#'   paste(tempdir(),'/result1.docx',sep = ''))
 #'
 renderInlineCode <- function(docxIn, docxOut, debug = F) {
     if (debug) {
