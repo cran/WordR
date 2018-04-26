@@ -20,7 +20,6 @@ Path to the rendered Word file if the operation was successfull.
 Read Word document with R code blocks, evaluate them and writes the result into another Word document.
 }
 \examples{
-library(ReporteRs)
 renderInlineCode(
   paste(examplePath(),'templates/template1.docx',sep = ''),
   paste(tempdir(),'/result1.docx',sep = ''))

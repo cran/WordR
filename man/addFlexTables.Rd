@@ -2,7 +2,10 @@
 % Please edit documentation in R/addFlexTables.R
 \name{addFlexTables}
 \alias{addFlexTables}
-\title{Read Word document with bookmarks and create other Word document with rendered tables in place.}
+\title{WARNING:
+Function WordR::addFlextables() will be deprecated.
+Pls change your scripts which creates the input tables to using flextable package (and not ReporteRs)
+and use WordR::body_add_flextables() instead.}
 \usage{
 addFlexTables(docxIn, docxOut, FlexTables = list(), debug = F, ...)
 }
@@ -21,16 +24,19 @@ addFlexTables(docxIn, docxOut, FlexTables = list(), debug = F, ...)
 Path to the rendered Word file if the operation was successfull.
 }
 \description{
+Read Word document with bookmarks and create other Word document with rendered tables in place.
+}
+\details{
 This function is basically a loop wrapper around \code{\link[ReporteRs]{addFlexTable}} function.
 }
 \examples{
-library(ReporteRs)
-ft_mtcars <- vanilla.table(mtcars)
-ft_iris <- vanilla.table(iris)
-FT <- list(ft_mtcars=ft_mtcars,ft_iris=ft_iris)
-addFlexTables(
-  paste(examplePath(),'templates/templateFT.docx',sep = ''),
-  paste(tempdir(),'/resultFT.docx',sep = ''),
-  FT)
+#library(ReporteRs)
+#ft_mtcars <- vanilla.table(mtcars)
+#ft_iris <- vanilla.table(iris)
+#FT <- list(ft_mtcars=ft_mtcars,ft_iris=ft_iris)
+#addFlexTables(
+#   paste(examplePath(),'templates/templateFT.docx',sep = ''),
+#   paste(tempdir(),'/resultFT.docx',sep = ''),
+#   FT)
 
 }

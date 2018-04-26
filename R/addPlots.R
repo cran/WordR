@@ -1,12 +1,16 @@
-#' Read Word document with bookmarks and create other Word documnet with rendered plots in place.
+#' Read Word document with bookmarks and create other Word document with rendered plots in place.
 #'
-#' This function is basically a loop wrapper around \code{\link[ReporteRs]{addPlot}} function.
+#' This function takes a list of functions creating plots and insert into Word document on places with correspondning bookmarks.
 #'
 #' @param docxIn String of length one; path to Word file with bookmarks.
 #' @param docxOut String of length one; path for output Word file.
-#' @param Plots Named list of function creating plots (see \code{\link[ReporteRs]{addPlot}}) for details) to be inserted into the Word file
+#' @param Plots Named list of function creating plots to be inserted into the Word file
+#' @param width width of the plots in output in inches
+#' @param height height of the plots in output in inches
+#' @param res see res parameter in \code{\link[grDevices]{png}}
+#' @param style see style parameter in \code{\link[officer]{body_add_img}}
 #' @param debug Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function
-#' @param ... Parameters to be sent to other methods (mainly \code{\link[ReporteRs]{addPlot}})
+#' @param ... Parameters to be sent to other methods (\code{\link[grDevices]{png}})
 #' @return  Path to the rendered Word file if the operation was successfull.
 #' @examples
 #'library(ggplot2)
@@ -17,21 +21,27 @@
 #'  paste(tempdir(),'/resultPlots.docx',sep = ''),
 #'  Plots,height=4)
 #'
-addPlots <- function(docxIn, docxOut, Plots = list(), debug = F, ...) {
-    if (debug) {
-        browser()
+addPlots <- function(docxIn, docxOut, Plots = list(), width = 6, height = 6, res= 300, style= NULL, debug = F, ...) {
+  if (debug) {
+    browser()
+  }
+
+  doc <- officer::read_docx(path = docxIn)
+
+  bks <- gsub("^p_", "", grep("^p_", officer::docx_bookmarks(doc), value = T))
+  for (bk in bks) {
+    if (!bk %in% names(Plots)) {
+      stop(paste("Plot rendering: Plot", bk, "not in the Plots list"))
     }
 
-    doc <- ReporteRs::docx(template = docxIn)
+    doc <- officer::cursor_bookmark(doc, paste0("p_", bk))
+    pngfile <- tempfile(fileext = ".png")
+    grDevices::png(filename = pngfile, width = width, height = height, units = "in", res = res, ...)
+    Plots[[bk]]()
+    grDevices::dev.off()
 
-    bks <- gsub("^p_", "", grep("^p_", ReporteRs::list_bookmarks(doc), value = T))
-    for (bk in bks) {
-        if (!bk %in% names(Plots)) {
-            stop(paste("Plot rendering: Plot", bk, "not in the Plots list"))
-        }
-        doc <- ReporteRs::addPlot(doc, Plots[[bk]], bookmark = paste0("p_", bk), par.properties = ReporteRs::parProperties(text.align = "center"), ...)
-    }
-
-    ReporteRs::writeDoc(doc, docxOut)
-    return(docxOut)
+    doc <- officer::body_add_img(doc, pngfile, style = style, width = width, height = height ,pos = "on")
+  }
+  print(doc, target = docxOut)
+  return(docxOut)
 }

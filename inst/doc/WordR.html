@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Tomas Hovorka (tomashovorka@seznam.cz)" />
 
-<meta name="date" content="2018-03-09" />
+<meta name="date" content="2018-04-26" />
 
 <title>WordR Package</title>
 
@@ -32,11 +32,11 @@
 
 <h1 class="title toc-ignore">WordR Package</h1>
 <h4 class="author"><em>Tomas Hovorka (<a href="mailto:tomashovorka@seznam.cz">tomashovorka@seznam.cz</a>)</em></h4>
-<h4 class="date"><em>2018-03-09</em></h4>
+<h4 class="date"><em>2018-04-26</em></h4>
 
 
 
-<p><code>WordR</code> package enables creating MS Word files (.docx) from given MS Word template. It can evaluate inline R code, insert tables and plots. <code>WordR</code> package is technically a wrapper around two other great and powerful packages - <code>officer</code> and <code>ReporteRs</code>.</p>
+<p><code>WordR</code> package enables creating MS Word files (.docx) from given MS Word template. It can evaluate inline R code, insert tables and plots. <code>WordR</code> package is technically a wrapper around a powerful package <code>officer</code>.</p>
 <div id="motivation" class="section level1">
 <h1>Motivation</h1>
 <p>R language has many ways for producing state-of-the-art reports. For example <code>rmarkdown</code> or <code>Sweave</code> packages are very effective in preparing reports in PDF format or R2wd for creating a MS Word report from scratch. However, such techniques has some drawbacks:</p>
@@ -94,8 +94,8 @@
 <div id="inserting-bookmarks-for-plots-or-tables" class="section level3">
 <h3>Inserting bookmarks for Plots or Tables</h3>
 <p>Example and more info about bookmarks in MS Word can be seen in file <code>examples/templates/templateFT.docx</code></p>
-<p>To render a table on a given place, just insert a bookmark with name <code>t_XYZ</code> where XYZ will be a name of a FlexTable (<code>ReporteRs::FlexTable</code>) table.</p>
-<p>To render a plot on a given place, just insert a bookmark with name <code>p_XYZ</code> where XYZ will be a name of plot function (<code>ReporteRs::addPlot.docx</code>).</p>
+<p>To render a table on a given place, just insert a bookmark with name <code>t_XYZ</code> where XYZ will be a name of a flextable (<code>flextable::flextable</code>) table.</p>
+<p>To render a plot on a given place, just insert a bookmark with name <code>p_XYZ</code> where XYZ will be a name of plot function.</p>
 </div>
 </div>
 <div id="template-rendering" class="section level2">
@@ -104,8 +104,8 @@
 <ul>
 <li>calculation of the outputs - tables, plots and values for inline expressions</li>
 <li>running <code>renderInlineCode</code> on the prepared template file</li>
-<li>running <code>addFlexTables</code> on the file resulting from previous step</li>
-<li>running <code>addFlexPlots</code> on the file resulting from previous step</li>
+<li>running <code>body_add_flextables</code> on the file resulting from previous step</li>
+<li>running <code>addPlots</code> on the file resulting from previous step</li>
 </ul>
 <p>Examples can be seen in <code>examples/examples.R</code>.</p>
 </div>
@@ -118,7 +118,7 @@
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

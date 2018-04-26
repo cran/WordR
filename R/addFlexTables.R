@@ -1,3 +1,8 @@
+#' WARNING:
+#' Function WordR::addFlextables() will be deprecated.
+#' Pls change your scripts which creates the input tables to using flextable package (and not ReporteRs)
+#' and use WordR::body_add_flextables() instead.
+#'
 #' Read Word document with bookmarks and create other Word document with rendered tables in place.
 #'
 #' This function is basically a loop wrapper around \code{\link[ReporteRs]{addFlexTable}} function.
@@ -9,20 +14,22 @@
 #' @param ... Parameters to be sent to other methods (mainly \code{\link[ReporteRs]{addFlexTable}})
 #' @return  Path to the rendered Word file if the operation was successfull.
 #' @examples
-#' library(ReporteRs)
-#' ft_mtcars <- vanilla.table(mtcars)
-#' ft_iris <- vanilla.table(iris)
-#' FT <- list(ft_mtcars=ft_mtcars,ft_iris=ft_iris)
-#' addFlexTables(
-#'   paste(examplePath(),'templates/templateFT.docx',sep = ''),
-#'   paste(tempdir(),'/resultFT.docx',sep = ''),
-#'   FT)
+#' #library(ReporteRs)
+#' #ft_mtcars <- vanilla.table(mtcars)
+#' #ft_iris <- vanilla.table(iris)
+#' #FT <- list(ft_mtcars=ft_mtcars,ft_iris=ft_iris)
+#' #addFlexTables(
+#' #   paste(examplePath(),'templates/templateFT.docx',sep = ''),
+#' #   paste(tempdir(),'/resultFT.docx',sep = ''),
+#' #   FT)
 #'
 addFlexTables <- function(docxIn, docxOut, FlexTables = list(), debug = F, ...) {
     if (debug) {
         browser()
     }
-
+    warning("Function WordR::addFlextables() will be deprecated.
+            \n Pls change your scripts which creates the input tables to using flextable package (and not ReporteRs)
+            \n and use WordR::body_add_flextables() instead.")
     doc <- ReporteRs::docx(template = docxIn)
 
     bks <- gsub("^t_", "", grep("^t_", ReporteRs::list_bookmarks(doc), value = T))

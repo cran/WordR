@@ -6,15 +6,18 @@ test_that("Rendering inline code", {
     paste(tempdir(),'/result1.docx',sep = '/'))
 })
 
-test_that("addFlexTables", {
-  expect_equal({library(ReporteRs);
-  ft_mtcars <- vanilla.table(mtcars);
-  ft_iris <- vanilla.table(iris);
-  FT<-list(ft_mtcars=ft_mtcars,ft_iris=ft_iris);
-  addFlexTables(
-    paste(examplePath(),'templates/templateFT.docx',sep = '/'),
-    paste(tempdir(),'/resultFT.docx',sep = '/'),FT,debug=F)},
-  paste(tempdir(),'/resultFT.docx',sep = '/'))
+test_that("body_add_flextables", {
+  expect_equal({
+       library(flextable)
+       ft_mtcars <- flextable(mtcars)
+       ft_iris <- flextable(iris)
+       FT <- list(ft_mtcars=ft_mtcars,ft_iris=ft_iris)
+       body_add_flextables(
+       paste(examplePath(),'templates/templateFT.docx',sep = ''),
+       paste(tempdir(),'/resultFT.docx',sep = ''),
+       FT)
+  },
+  paste(tempdir(),'/resultFT.docx',sep = ''))
 })
 
 test_that("addPlots", {

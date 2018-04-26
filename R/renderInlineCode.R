@@ -5,7 +5,6 @@
 #' @param debug Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function
 #' @return Path to the rendered Word file if the operation was successfull.
 #' @examples
-#' library(ReporteRs)
 #' renderInlineCode(
 #'   paste(examplePath(),'templates/template1.docx',sep = ''),
 #'   paste(tempdir(),'/result1.docx',sep = ''))
@@ -18,7 +17,7 @@ renderInlineCode <- function(docxIn, docxOut, debug = F) {
   doc<-officer::read_docx(docxIn)
   smm<-officer::docx_summary(doc)
 
-  styles<-doc$doc_obj$styles()
+  styles<-officer::styles_info(doc)
 
   regx<-"^[ ]*`r[ ](.*)`$"
   smm$expr<-ifelse(grepl(regx,smm$text),sub(regx,"\\1",smm$text),NA)

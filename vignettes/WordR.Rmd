@@ -10,9 +10,7 @@ vignette: >
 ---
 
 
-`WordR` package enables creating MS Word files (.docx) from given MS Word template. It can evaluate inline R code, insert tables and plots. `WordR` package is technically a wrapper around two other great and powerful packages - `officer` and `ReporteRs`.
-
-
+`WordR` package enables creating MS Word files (.docx) from given MS Word template. It can evaluate inline R code, insert tables and plots. `WordR` package is technically a wrapper around a powerful package `officer`.
 
 # Motivation
 
@@ -71,10 +69,10 @@ Example can be seen in file `examples/templates/template1.docx`.
 
 Example and more info about bookmarks in MS Word can be seen in file `examples/templates/templateFT.docx`
 
-To render a table on a given place, just insert a bookmark with name `t_XYZ` where XYZ will be a name of a FlexTable (`ReporteRs::FlexTable`) table.
+To render a table on a given place, just insert a bookmark with name `t_XYZ` where XYZ will be a name of a flextable (`flextable::flextable`) table.
 
 
-To render a plot on a given place, just insert a bookmark with name `p_XYZ` where XYZ will be a name of plot function (`ReporteRs::addPlot.docx`).
+To render a plot on a given place, just insert a bookmark with name `p_XYZ` where XYZ will be a name of plot function.
 
 
 
@@ -84,8 +82,8 @@ Functions for rendering the MS Word file are the main content of the WordR packa
 
 - calculation of the outputs - tables, plots and values for inline expressions
 - running `renderInlineCode` on the prepared template file
-- running `addFlexTables` on the file resulting from previous step
-- running `addFlexPlots` on the file resulting from previous step
+- running `body_add_flextables` on the file resulting from previous step
+- running `addPlots` on the file resulting from previous step
 
 Examples can be seen in `examples/examples.R`.
 
