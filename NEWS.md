@@ -1,3 +1,7 @@
+# WordR 0.3.1
+* Removing Suggest:ReporteRs
+* Removing function addFlexTables (as ReporteRs package is removed from CRAN)
+
 # WordR 0.3
 * Removing dependancy on ReporteRs package (keeping it just in addFlexTables function for backward compatibility)
 * changing addPlots function (thanks D.Gohel) to use officer not ReporteRs

@@ -7,7 +7,7 @@
 \title{WordR: package for rendering MS Word documents with R inline code and inserting tables and plots.}
 \description{
 The WordR package provides three main functions
-\code{\link[WordR]{addFlexTables}}, \code{\link[WordR]{addPlots}} and \code{\link[WordR]{renderInlineCode}},
+\code{\link[WordR]{body_add_flextables}}, \code{\link[WordR]{addPlots}} and \code{\link[WordR]{renderInlineCode}},
 which together should provide enough functionality to create a nice, customised MS Word report from a given template.
 }
 \details{
