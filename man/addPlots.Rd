@@ -4,8 +4,17 @@
 \alias{addPlots}
 \title{Read Word document with bookmarks and create other Word document with rendered plots in place.}
 \usage{
-addPlots(docxIn, docxOut, Plots = list(), width = 6, height = 6,
-  res = 300, style = NULL, debug = F, ...)
+addPlots(
+  docxIn,
+  docxOut,
+  Plots = list(),
+  width = 6,
+  height = 6,
+  res = 300,
+  style = NULL,
+  debug = F,
+  ...
+)
 }
 \arguments{
 \item{docxIn}{String of length one; path to Word file with bookmarks.}

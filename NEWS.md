@@ -1,3 +1,7 @@
+# WordR 0.3.2
+* redoing internals of renderInlineCode - officer::slip_in_text was deprecated, so I moved it here to keep the functionality (consented by David Gohel - thanks!).
+* adding Import: xml2
+
 # WordR 0.3.1
 * Removing Suggest:ReporteRs
 * Removing function addFlexTables (as ReporteRs package is removed from CRAN)

@@ -10,4 +10,4 @@
 #'
 #' @docType package
 #' @name WordR
-NULL
+

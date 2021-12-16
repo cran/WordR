@@ -8,6 +8,7 @@
 #' @param debug Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function
 #' @param ... Parameters to be sent to other methods (mainly \code{\link[flextable]{body_add_flextable}})
 #' @return  Path to the rendered Word file if the operation was successfull.
+#' @export
 #' @examples
 #' library(flextable)
 #' ft_mtcars <- flextable(mtcars)
@@ -27,11 +28,13 @@ body_add_flextables<-function(docxIn, docxOut, flextables,debug = F,...) {
   doc<-officer::read_docx(docxIn)
   bks <- gsub("^t_", "", grep("^t_", officer::docx_bookmarks(doc), value = T))
   for (bk in bks) {
-    if (!bk %in% names(flextables)) {
-      stop(paste("Table rendering: Table", bk, "not in the flextables list"))
-    }
+    if (!(bk %in% names(flextables))) {
+      warning(paste("Table rendering: Table", bk, "not in the flextables list"))
+    } else
+    {
     doc<- officer::cursor_bookmark(doc,paste0("t_",bk))
     doc<- flextable::body_add_flextable(doc, flextables[[bk]],...)
+    }
   }
 
   print(doc, target=docxOut)

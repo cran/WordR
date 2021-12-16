@@ -12,6 +12,10 @@
 #' @param debug Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function
 #' @param ... Parameters to be sent to other methods (\code{\link[grDevices]{png}})
 #' @return  Path to the rendered Word file if the operation was successfull.
+#'
+#' @import officer
+#'
+#' @export
 #' @examples
 #'library(ggplot2)
 #'Plots<-list(plot1=function()plot(hp~wt,data=mtcars,col=cyl),
@@ -30,17 +34,19 @@ addPlots <- function(docxIn, docxOut, Plots = list(), width = 6, height = 6, res
 
   bks <- gsub("^p_", "", grep("^p_", officer::docx_bookmarks(doc), value = T))
   for (bk in bks) {
-    if (!bk %in% names(Plots)) {
-      stop(paste("Plot rendering: Plot", bk, "not in the Plots list"))
+    if (!(bk %in% names(Plots))) {
+      warning(paste("Plot rendering: Plot", bk, "not in the Plots list"))
+    } else
+    {
+
+      doc <- officer::cursor_bookmark(doc, paste0("p_", bk))
+      pngfile <- tempfile(fileext = ".png")
+      grDevices::png(filename = pngfile, width = width, height = height, units = "in", res = res, ...)
+      Plots[[bk]]()
+      grDevices::dev.off()
+
+      doc <- officer::body_add_img(doc, pngfile, style = style, width = width, height = height ,pos = "on")
     }
-
-    doc <- officer::cursor_bookmark(doc, paste0("p_", bk))
-    pngfile <- tempfile(fileext = ".png")
-    grDevices::png(filename = pngfile, width = width, height = height, units = "in", res = res, ...)
-    Plots[[bk]]()
-    grDevices::dev.off()
-
-    doc <- officer::body_add_img(doc, pngfile, style = style, width = width, height = height ,pos = "on")
   }
   print(doc, target = docxOut)
   return(docxOut)
