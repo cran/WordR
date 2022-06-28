@@ -1,9 +1,9 @@
 #' Read Word document with R code blocks, evaluate them and writes the result into another Word document.
 #'
-#' @param docxIn String of length one; path to Word file with R code blocks.
-#' @param docxOut String of length one; path for output Word file.
+#' @param docxIn String of length one; path to Word file with bookmarks OR officer::rdocx object
+#' @param docxOut String of length one; path for output Word file or NA
 #' @param debug Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function
-#' @return Path to the rendered Word file if the operation was successfull.
+#' @return  Path to the rendered Word file if the operation was successfull OR officer::rdocx object if docxOut is NA
 #'
 #' @import officer
 #' @import dplyr
@@ -15,11 +15,17 @@
 #'   paste(tempdir(),'/result1.docx',sep = ''))
 #'
 renderInlineCode <- function(docxIn, docxOut, debug = F) {
-    if (debug) {
-        browser()
-    }
+  if (debug) {
+    browser()
+  }
 
-  doc<-officer::read_docx(docxIn)
+  if("rdocx" %in% class(docxIn)){
+    doc<-docxIn
+  } else
+  {
+    doc <- officer::read_docx(path = docxIn)
+  }
+
   smm<-officer::docx_summary(doc)
 
   styles<-officer::styles_info(doc)
@@ -40,6 +46,10 @@ renderInlineCode <- function(docxIn, docxOut, debug = F) {
       officer::cursor_backward() %>% slip_in_text2(smm$values[i],pos="after", style = stylei)
   }
 
-    print(doc, target = docxOut)
-    return(docxOut)
+  if(is.na(docxOut)){
+    return(doc)
+  }
+
+  print(doc, target = docxOut)
+  return(docxOut)
 }

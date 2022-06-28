@@ -85,6 +85,8 @@ Functions for rendering the MS Word file are the main content of the WordR packa
 - running `body_add_flextables` on the file resulting from previous step
 - running `addPlots` on the file resulting from previous step
 
+Alternatively, from v0.3.3 `renderAll` function is available, which is a wrapper around those three rendering functions.
+
 Examples can be seen in `examples/examples.R`.
 
 

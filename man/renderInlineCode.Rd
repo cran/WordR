@@ -7,14 +7,14 @@
 renderInlineCode(docxIn, docxOut, debug = F)
 }
 \arguments{
-\item{docxIn}{String of length one; path to Word file with R code blocks.}
+\item{docxIn}{String of length one; path to Word file with bookmarks OR officer::rdocx object}
 
-\item{docxOut}{String of length one; path for output Word file.}
+\item{docxOut}{String of length one; path for output Word file or NA}
 
 \item{debug}{Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function}
 }
 \value{
-Path to the rendered Word file if the operation was successfull.
+Path to the rendered Word file if the operation was successfull OR officer::rdocx object if docxOut is NA
 }
 \description{
 Read Word document with R code blocks, evaluate them and writes the result into another Word document.

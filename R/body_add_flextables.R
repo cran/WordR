@@ -2,12 +2,12 @@
 #'
 #' This function is basically a loop wrapper around \code{\link[flextable]{body_add_flextable}} function.
 #'
-#' @param docxIn String of length one; path to Word file with bookmarks.
-#' @param docxOut String of length one; path for output Word file.
+#' @param docxIn String of length one; path to Word file with bookmarks OR officer::rdocx object
+#' @param docxOut String of length one; path for output Word file or NA
 #' @param flextables Named list of flextables; Tables to be inserted into the Word file
 #' @param debug Boolean of length one; If \code{True} then \code{\link[base]{browser}()} is called at the beginning of the function
 #' @param ... Parameters to be sent to other methods (mainly \code{\link[flextable]{body_add_flextable}})
-#' @return  Path to the rendered Word file if the operation was successfull.
+#' @return  Path to the rendered Word file if the operation was successfull OR officer::rdocx object if docxOut is NA
 #' @export
 #' @examples
 #' library(flextable)
@@ -25,7 +25,13 @@ body_add_flextables<-function(docxIn, docxOut, flextables,debug = F,...) {
     browser()
   }
 
-  doc<-officer::read_docx(docxIn)
+  if("rdocx" %in% class(docxIn)){
+    doc<-docxIn
+  } else
+  {
+    doc <- officer::read_docx(path = docxIn)
+  }
+
   bks <- gsub("^t_", "", grep("^t_", officer::docx_bookmarks(doc), value = T))
   for (bk in bks) {
     if (!(bk %in% names(flextables))) {
@@ -35,6 +41,10 @@ body_add_flextables<-function(docxIn, docxOut, flextables,debug = F,...) {
     doc<- officer::cursor_bookmark(doc,paste0("t_",bk))
     doc<- flextable::body_add_flextable(doc, flextables[[bk]],...)
     }
+  }
+
+  if(is.na(docxOut)){
+    return(doc)
   }
 
   print(doc, target=docxOut)

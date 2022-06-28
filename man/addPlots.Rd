@@ -17,15 +17,15 @@ addPlots(
 )
 }
 \arguments{
-\item{docxIn}{String of length one; path to Word file with bookmarks.}
+\item{docxIn}{String of length one; path to Word file with bookmarks OR officer::rdocx object}
 
-\item{docxOut}{String of length one; path for output Word file.}
+\item{docxOut}{String of length one; path for output Word file or NA}
 
-\item{Plots}{Named list of function creating plots to be inserted into the Word file}
+\item{Plots}{Named list of functions (or plots - for plots which are stored as objects e.g., ggplot) creating plots to be inserted into the Word file}
 
-\item{width}{width of the plots in output in inches}
+\item{width}{width of the plots in output in inches, either of length 1 (and will be recycled), or same length as Plots}
 
-\item{height}{height of the plots in output in inches}
+\item{height}{height of the plots in output in inches, either of length 1 (and will be recycled), or same length as Plots}
 
 \item{res}{see res parameter in \code{\link[grDevices]{png}}}
 
@@ -36,7 +36,7 @@ addPlots(
 \item{...}{Parameters to be sent to other methods (\code{\link[grDevices]{png}})}
 }
 \value{
-Path to the rendered Word file if the operation was successfull.
+Path to the rendered Word file if the operation was successfull OR officer::rdocx object if docxOut is NA
 }
 \description{
 This function takes a list of functions creating plots and insert into Word document on places with correspondning bookmarks.

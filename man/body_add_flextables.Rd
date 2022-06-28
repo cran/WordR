@@ -7,9 +7,9 @@
 body_add_flextables(docxIn, docxOut, flextables, debug = F, ...)
 }
 \arguments{
-\item{docxIn}{String of length one; path to Word file with bookmarks.}
+\item{docxIn}{String of length one; path to Word file with bookmarks OR officer::rdocx object}
 
-\item{docxOut}{String of length one; path for output Word file.}
+\item{docxOut}{String of length one; path for output Word file or NA}
 
 \item{flextables}{Named list of flextables; Tables to be inserted into the Word file}
 
@@ -18,7 +18,7 @@ body_add_flextables(docxIn, docxOut, flextables, debug = F, ...)
 \item{...}{Parameters to be sent to other methods (mainly \code{\link[flextable]{body_add_flextable}})}
 }
 \value{
-Path to the rendered Word file if the operation was successfull.
+Path to the rendered Word file if the operation was successfull OR officer::rdocx object if docxOut is NA
 }
 \description{
 This function is basically a loop wrapper around \code{\link[flextable]{body_add_flextable}} function.

@@ -3,6 +3,7 @@
 export(addPlots)
 export(body_add_flextables)
 export(examplePath)
+export(renderAll)
 export(renderInlineCode)
 import(dplyr)
 import(officer)

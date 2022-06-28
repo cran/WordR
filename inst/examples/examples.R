@@ -35,3 +35,17 @@ body_add_flextables(paste(examplePath(), "results/templateAll.docx", sep = ""),
 
 addPlots(paste(examplePath(), "results/templateAll.docx", sep = ""),
          paste(examplePath(), "results/templateAll.docx", sep = ""), Plots, height = 4)
+
+############################## combining all together but shorter
+library(flextable)
+library(ggplot2)
+# prepare outputs
+ft_mtcars <- flextable(mtcars)
+FT <- list(mtcars=ft_mtcars)
+Plots <- list(mtcars1 = ggplot(mtcars, aes(x = wt, y = hp, col = as.factor(cyl))) + geom_point())
+
+# render docx
+renderAll(docxIn=paste0(examplePath(), "templates/templateAll.docx"),
+          docxOut=paste0(examplePath(), "results/templateAll2.docx"),
+          flextables=FT,
+          Plots=Plots)

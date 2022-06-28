@@ -1,3 +1,9 @@
+# WordR 0.3.3
+* adding function renderAll which combines rendering of inline code, plots and flextables
+* rendering functions now accept officer::rdocx object as input
+* rendering functions now can output officer::rdocx object
+* addPlots now accepts plots as objects (where possible e.g. gglots, not base plots); and width and height parameters can be set up individually for each plot.
+
 # WordR 0.3.2
 * redoing internals of renderInlineCode - officer::slip_in_text was deprecated, so I moved it here to keep the functionality (consented by David Gohel - thanks!).
 * adding Import: xml2
