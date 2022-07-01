@@ -20,7 +20,7 @@
 #' FT <- list(mtcars=ft_mtcars)
 #' Plots <- list(mtcars1 = ggplot(mtcars, aes(x = wt, y = hp, col = as.factor(cyl))) + geom_point())
 #' renderAll(docxIn=paste0(examplePath(), "templates/templateAll.docx"),
-#'           docxOut=paste0(examplePath(), "results/templateAll2.docx"),
+#'           docxOut=paste0(tempdir(), "/resultsAll.docx"),
 #'           flextables=FT,
 #'           Plots=Plots)
 #'

@@ -1,3 +1,7 @@
+# WordR 0.3.4
+* resubmission to CRAN
+* fixed problem with writing file in example of renderAll()
+
 # WordR 0.3.3
 * adding function renderAll which combines rendering of inline code, plots and flextables
 * rendering functions now accept officer::rdocx object as input
