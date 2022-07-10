@@ -1,3 +1,7 @@
+# WordR 0.3.5
+* resubmission to CRAN
+* fixed problem with paths in test for addPlots3()
+
 # WordR 0.3.4
 * resubmission to CRAN
 * fixed problem with writing file in example of renderAll()

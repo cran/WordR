@@ -46,7 +46,7 @@ test_that("addPlots2", {
 
 test_that("addPlots3", {
   library(ggplot2)
-  outpath<-paste(tempdir(),'/resultPlots3.docx',sep = '')
+  outpath<-paste(tempdir(),.Platform$file.sep,'resultPlots3.docx',sep = '')
   Plots<-list(plot1=function(){plot(hp~wt,data=mtcars,col=cyl)},
               plot2=(ggplot(mtcars,aes(x=wt,y=hp,col=as.factor(cyl)))+geom_point()))
   resFile<-addPlots(docxIn= officer::read_docx(path =paste(examplePath(),'templates/templatePlots.docx',sep = '')),
@@ -55,7 +55,7 @@ test_that("addPlots3", {
 
   resFilePath<-print(resFile, target = outpath)
 
-  expect_equal(resFilePath, gsub("\\\\","/",outpath))
+  expect_equal(basename(resFilePath), 'resultPlots3.docx')
   expect_equal(class(resFile), "rdocx")
 })
 
