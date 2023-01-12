@@ -39,7 +39,7 @@ addPlots(
 Path to the rendered Word file if the operation was successfull OR officer::rdocx object if docxOut is NA
 }
 \description{
-This function takes a list of functions creating plots and insert into Word document on places with correspondning bookmarks.
+This function takes a list of functions creating plots and insert into Word document on places with corresponding bookmarks.
 }
 \examples{
 library(ggplot2)

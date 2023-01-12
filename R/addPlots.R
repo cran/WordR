@@ -1,6 +1,6 @@
 #' Read Word document with bookmarks and create other Word document with rendered plots in place.
 #'
-#' This function takes a list of functions creating plots and insert into Word document on places with correspondning bookmarks.
+#' This function takes a list of functions creating plots and insert into Word document on places with corresponding bookmarks.
 #'
 #' @param docxIn String of length one; path to Word file with bookmarks OR officer::rdocx object
 #' @param docxOut String of length one; path for output Word file or NA

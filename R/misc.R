@@ -23,7 +23,7 @@ slip_in_text2 <- function( x, str, style = NULL, pos = "after", hyperlink = NULL
   if( is.null(style) )
     style <- x$default_styles$character
 
-  style_id <- get_style_id(data = x$styles, style=style, type = "character")
+  style_id <- get_style_id(x, style=style, type = "character")
 
   wr_ns_yes <- "<w:r xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:w14=\"http://schemas.microsoft.com/office/word/2010/wordml\">"
 
@@ -70,7 +70,7 @@ slip_in_xml <- function(x, str, pos){
     stop("unknown pos ", shQuote(pos, type = "sh"), ", it should be ",
          paste( shQuote(pos_list, type = "sh"), collapse = " or ") )
 
-  cursor_elt <- x$doc_obj$get_at_cursor()
+  cursor_elt <- docx_current_block_xml(x)
   pos <- ifelse(pos=="after", length(xml2::xml_children(cursor_elt)), 1)
   xml2::xml_add_child(.x = cursor_elt, .value = xml_elt, .where = pos )
   x
@@ -115,8 +115,8 @@ htmlEscapeCopy <- local({
 })
 
 # This function is copy of one in officer
-get_style_id <- function(data, style, type ){
-  ref <- data[data$style_type==type, ]
+get_style_id <- function(x, style, type ){
+  ref <- styles_info(x, type = type)
 
   if(!style %in% ref$style_name){
     t_ <- shQuote(ref$style_name, type = "sh")

@@ -1,3 +1,6 @@
+# WordR 0.3.6
+* adjustments to maintain compatibility with officer package (hence requires officer >= 0.5.0)
+
 # WordR 0.3.5
 * resubmission to CRAN
 * fixed problem with paths in test for addPlots3()
